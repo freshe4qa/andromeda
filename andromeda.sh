@@ -59,14 +59,14 @@ sudo apt install curl build-essential git wget jq make gcc tmux -y
 
 # install go
 if ! [ -x "$(command -v go)" ]; then
-ver="1.18.2"
+ver="1.19.4"
 cd $HOME
-wget "https://golang.org/dl/go$ver.linux-amd64.tar.gz"
-sudo rm -rf /usr/local/go
-sudo tar -C /usr/local -xzf "go$ver.linux-amd64.tar.gz"
-rm "go$ver.linux-amd64.tar.gz"
-echo "export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin" >> ~/.bash_profile
-source ~/.bash_profile
+wget -O go1.19.4.linux-amd64.tar.gz https://golang.org/dl/go1.19.4.linux-amd64.tar.gz
+sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf go1.19.4.linux-amd64.tar.gz && sudo rm go1.19.4.linux-amd64.tar.gz
+echo 'export GOROOT=/usr/local/go' >> $HOME/.bash_profile
+echo 'export GOPATH=$HOME/go' >> $HOME/.bash_profile
+echo 'export GO111MODULE=on' >> $HOME/.bash_profile
+echo 'export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin' >> $HOME/.bash_profile && . $HOME/.bash_profile
 fi
 
 # download binary
@@ -77,15 +77,15 @@ git checkout galileo-3-v1.1.0-beta1
 make install
 
 # config
-andromedad config chain-id $ANDROMEDA_CHAIN_ID
+andromedad config chain-id galileo-3
 andromedad config keyring-backend test
 
 # init
-andromedad init $NODENAME --chain-id $ANDROMEDA_CHAIN_ID
+andromedad init $NODENAME --chain-id galileo-3
 
 # download genesis and addrbook
-wget https://snapshot.yeksin.net/andromeda/genesis.json -O $HOME/.andromedad/config/genesis.json
-wget https://snapshot.yeksin.net/andromeda/addrbook.json -O $HOME/.andromedad/config/addrbook.json
+wget -O genesis.json https://snapshots.nodeist.net/t/andromeda/genesis.json --inet4-only
+mv genesis.json ~/.andromedad/config
 
 # set minimum gas price
 sed -i -e "s/^minimum-gas-prices *=.*/minimum-gas-prices = \"0.25uandr\"/" $HOME/.andromedad/config/app.toml
@@ -128,7 +128,7 @@ LimitNOFILE=10000
 WantedBy=multi-user.target
 EOF
 
-andromedad tendermint unsafe-reset-all --home $HOME/.andromedad/ --keep-addr-book
+andromedad tendermint unsafe-reset-all
 
 # start service
 sudo systemctl daemon-reload
@@ -162,7 +162,7 @@ andromedad tx staking create-validator \
   --min-self-delegation "1" \
   --pubkey  $(andromedad tendermint show-validator) \
   --moniker $NODENAME \
-  --chain-id $ANDROMEDA_CHAIN_ID \
+  --chain-id galileo-3 \
   --fees=2000uandr \
   --gas=auto
   
