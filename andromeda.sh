@@ -166,7 +166,7 @@ andromedad tx staking create-validator \
   --pubkey  $(andromedad tendermint show-validator) \
   --moniker $NODENAME \
   --chain-id galileo-3 \
-  --fees=2000uandr \
+  --fees=44300uandr \
   --gas=auto
   
 break
