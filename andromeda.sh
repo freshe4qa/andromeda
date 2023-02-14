@@ -70,10 +70,10 @@ source ~/.bash_profile
 fi
 
 # download binary
-cd $HOME
+cd $HOME && rm -rf andromedad
 git clone https://github.com/andromedaprotocol/andromedad.git
 cd andromedad
-git checkout galileo-3-v1.1.0-beta1
+git checkout galileo-3-v1.1.0-beta1 
 make install
 
 # config
@@ -84,8 +84,8 @@ andromedad config keyring-backend test
 andromedad init $NODENAME --chain-id $ANDROMEDA_CHAIN_ID
 
 # download genesis and addrbook
-wget -qO $HOME/.andromeda/config/genesis.json wget "https://snapshot.yeksin.net/andromeda/genesis.json"
-wget -qO $HOME/.andromedad/config/addrbook.json wget "https://snapshot.yeksin.net/andromeda/addrbook.json"
+wget https://snapshot.yeksin.net/andromeda/genesis.json -O $HOME/.andromedad/config/genesis.json
+wget https://snapshot.yeksin.net/andromeda/addrbook.json -O $HOME/.andromedad/config/addrbook.json
 
 # set minimum gas price
 sed -i -e "s/^minimum-gas-prices *=.*/minimum-gas-prices = \"0.25uandr\"/" $HOME/.andromedad/config/app.toml
