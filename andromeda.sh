@@ -129,9 +129,8 @@ LimitNOFILE=10000
 WantedBy=multi-user.target
 EOF
 
-andromedad tendermint unsafe-reset-all --home $HOME/.andromedad --keep-addr-book
-
-curl https://snapshots-testnet.nodejumper.io/andromeda-testnet/galileo-3_2023-02-14.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.andromedad
+andromedad tendermint unsafe-reset-all --home $HOME/.andromedad --keep-addr-book 
+curl https://snapshots2-testnet.nodejumper.io/andromeda-testnet/galileo-3_2023-04-01.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.andromedad
 
 # start service
 sudo systemctl daemon-reload
