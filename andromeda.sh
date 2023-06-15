@@ -130,7 +130,7 @@ WantedBy=multi-user.target
 EOF
 
 andromedad tendermint unsafe-reset-all --home $HOME/.andromedad --keep-addr-book 
-curl https://snapshots2-testnet.nodejumper.io/andromeda-testnet/galileo-3_2023-06-14.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.andromedad
+curl https://snapshots2-testnet.nodejumper.io/andromeda-testnet/galileo-3_2023-06-15.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.andromedad
 
 # start service
 sudo systemctl daemon-reload
